@@ -60,12 +60,15 @@ button:disabled {
   opacity: 0.4;
 }
 
-button:focus-visible,
+button:focus-visible {
+  outline: 3px solid rgb(108 91 212 / 28%);
+  outline-offset: 2px;
+}
+
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: 3px solid rgb(108 91 212 / 28%);
-  outline-offset: 2px;
+  outline: none;
 }
 
 .text-button {
@@ -111,10 +114,14 @@ input[type='password'],
 textarea,
 select {
   width: 100%;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-interaction);
   border-radius: var(--radius-md);
   padding: 0.85rem 1rem;
   background: var(--color-surface);
+  box-shadow: 0 0 0 2px rgb(0 42 53 / 8%);
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
 }
 
 textarea {
@@ -126,7 +133,10 @@ input[type='email']:focus,
 input[type='password']:focus,
 textarea:focus,
 select:focus {
-  border-color: var(--color-accent);
+  border-color: var(--color-interaction);
+  box-shadow:
+    0 0 0 3px rgb(0 42 53 / 16%),
+    0 0 14px rgb(0 42 53 / 20%);
 }
 
 /* Wizard card */
@@ -190,25 +200,34 @@ progress::-moz-progress-bar {
   min-height: 3.5rem;
   align-items: center;
   gap: 0.8rem;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-interaction);
   border-radius: var(--radius-md);
   padding: 0.9rem 1rem;
   background: var(--color-surface);
+  box-shadow: 0 0 0 2px rgb(0 42 53 / 7%);
   cursor: pointer;
   transition:
     border-color 150ms ease,
     background 150ms ease,
+    box-shadow 150ms ease,
     transform 150ms ease;
 }
 
-.choice-list label:hover {
-  border-color: var(--color-accent);
+.choice-list label:hover,
+.choice-list label:focus-within {
+  border-color: var(--color-interaction);
+  box-shadow:
+    0 0 0 3px rgb(0 42 53 / 14%),
+    0 0 12px rgb(0 42 53 / 16%);
 }
 
 .choice-list label:has(input:checked) {
-  border-color: var(--color-accent);
+  border-color: var(--color-interaction);
   background: var(--color-accent-soft);
   color: var(--color-primary-dark);
+  box-shadow:
+    0 0 0 3px rgb(0 42 53 / 15%),
+    0 0 14px rgb(0 42 53 / 18%);
 }
 
 .choice-list input[type='radio'] {
@@ -276,8 +295,17 @@ progress::-moz-progress-bar {
   width: 100%;
   height: 1.75rem;
   margin: 0;
-  accent-color: var(--color-primary);
+  accent-color: var(--color-interaction);
+  filter: drop-shadow(0 0 4px rgb(0 42 53 / 28%));
   cursor: pointer;
+  transition:
+    filter 150ms ease,
+    opacity 150ms ease;
+}
+
+.answer-slider:focus-visible {
+  outline: none;
+  filter: drop-shadow(0 0 7px rgb(0 42 53 / 42%));
 }
 
 .answer-slider.is-unanswered {

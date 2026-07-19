@@ -20,6 +20,9 @@
     --color-error: #a63d40;
     --color-error-soft: #fbeaea;
 
+    /* Interaction */
+    --color-interaction: #002a35;
+
     /* Shape */
     --radius-sm: 0.5rem;
     --radius-md: 0.75rem;
