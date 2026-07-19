@@ -105,6 +105,13 @@ export function FocusedTextarea({
   optional = false,
 }) {
   const textareaRef = useRef(null)
+  const hasAnswer = String(value ?? '').trim().length > 0
+
+  const interactionState = hasAnswer
+    ? 'has-answer'
+    : optional
+      ? 'is-optional'
+      : 'needs-answer'
 
   useEffect(() => {
     textareaRef.current?.focus()
@@ -120,6 +127,7 @@ export function FocusedTextarea({
 
       <textarea
         ref={textareaRef}
+        className={`interaction-field ${interactionState}`}
         rows={rows}
         value={value}
         placeholder={placeholder}

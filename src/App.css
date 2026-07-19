@@ -108,20 +108,16 @@ label {
   color: var(--color-text);
 }
 
-input[type='number'],
-input[type='email'],
-input[type='password'],
-textarea,
-select {
-  width: 100%;
-  border: 1px solid var(--color-interaction);
-  border-radius: var(--radius-md);
-  padding: 0.85rem 1rem;
-  background: var(--color-surface);
-  box-shadow: 0 0 0 2px rgb(0 42 53 / 8%);
-  transition:
-    border-color 150ms ease,
-    box-shadow 150ms ease;
+input[type='number']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-interaction);
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgb(255 255 255 / 95%),
+    0 0 20px 5px var(--color-interaction-glow);
 }
 
 textarea {
@@ -339,6 +335,67 @@ progress::-moz-progress-bar {
 
 fieldset textarea {
   margin-top: 0.5rem;
+}
+
+/* Guides users toward required answer fields. */
+
+@keyframes interaction-breathe {
+
+  0%,
+  100% {
+    border-color: var(--color-border);
+    box-shadow: 0 0 5px rgb(var(--color-interaction-rgb) / 8%);
+  }
+
+  50% {
+    border-color: var(--color-interaction);
+    box-shadow:
+      0 0 5px rgb(var(--color-interaction-rgb) / 85%),
+      0 0 15px 4px rgb(var(--color-interaction-rgb) / 48%);
+  }
+}
+
+.interaction-field {
+  outline: none;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+/* Empty required field: breathe until answered. */
+.interaction-field.needs-answer {
+  animation: interaction-breathe 2.5s ease-in-out infinite;
+}
+
+/* Completed field: retain a smaller confirmation glow. */
+.interaction-field.has-answer {
+  border-color: var(--color-interaction);
+  box-shadow:
+    0 0 4px rgb(var(--color-interaction-rgb) / 70%),
+    0 0 8px rgb(var(--color-interaction-rgb) / 28%);
+  animation: none;
+}
+
+/* Blank optional fields remain neutral. */
+.interaction-field.is-optional {
+  border-color: var(--color-border);
+  box-shadow: none;
+  animation: none;
+}
+
+/* Prevent older generic focus styling from covering this effect. */
+.interaction-field:focus {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interaction-field.needs-answer {
+    border-color: var(--color-interaction);
+    box-shadow:
+      0 0 4px rgb(var(--color-interaction-rgb) / 65%),
+      0 0 10px rgb(var(--color-interaction-rgb) / 32%);
+    animation: none;
+  }
 }
 
 /* Wizard navigation */
