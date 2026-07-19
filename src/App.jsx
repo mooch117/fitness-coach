@@ -40,7 +40,7 @@ function App() {
   if (checkingSession) {
     return (
       <main className="container">
-        <h1>Fitness Coach</h1>
+        <h1>Juntos Coach</h1>
         <p>Loading...</p>
       </main>
     )

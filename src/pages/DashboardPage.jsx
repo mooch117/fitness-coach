@@ -13,7 +13,7 @@ export function DashboardPage({
   if (loading) {
     return (
       <main className="container">
-        <h1>Fitness Coach</h1>
+        <h1>Juntos Coach</h1>
         <p>Loading your plan...</p>
       </main>
     )
