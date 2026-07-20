@@ -1,0 +1,95 @@
+/* Create Plan page and no-plan dashboard states. */
+
+.empty-plan-card {
+  margin: 2rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.5rem, 6vw, 2.25rem);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.empty-plan-card h2 {
+  margin: 0;
+}
+
+.empty-plan-card p {
+  max-width: 30rem;
+  margin: 0.9rem auto 1.5rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+.empty-plan-card button {
+  width: min(100%, 16rem);
+}
+
+.plan-start-countdown {
+  margin-top: 0.9rem !important;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  background: var(--color-accent-soft);
+  color: var(--color-primary-dark);
+  font-weight: 750;
+  text-align: center;
+}
+
+.create-plan-page > h1 {
+  margin-top: 1.5rem;
+}
+
+.create-plan-date-field,
+.create-plan-number-field {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.create-plan-date-field > span,
+.create-plan-number-field > span {
+  font-weight: 700;
+}
+
+.create-plan-date-field input {
+  width: 100%;
+  min-width: 0;
+  min-height: 3.25rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.create-plan-field-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.create-plan-number-field {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  background: var(--color-background);
+}
+
+.create-plan-number-field input {
+  width: 100%;
+}
+
+.create-plan-review {
+  margin-top: 1.25rem;
+}
+
+@media (min-width: 40rem) {
+  .create-plan-field-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+
+  .create-plan-field-grid
+    .create-plan-number-field:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
