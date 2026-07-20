@@ -159,20 +159,16 @@ export async function savePlanMeasurementPreferences(
     )
   }
 
-  const updates = {
-    measurement_side: measurementSide,
-  }
-
-  if (timeZone) {
-    updates.time_zone = timeZone
-  }
-
   const { data, error } = await supabase
-    .from('coaching_plans')
-    .update(updates)
-    .eq('id', coachingPlanId)
-    .select(
-      'id, measurement_side, time_zone',
+    .rpc(
+      'save_plan_measurement_preferences',
+      {
+        p_coaching_plan_id:
+          coachingPlanId,
+        p_measurement_side:
+          measurementSide,
+        p_time_zone: timeZone || null,
+      },
     )
     .single()
 

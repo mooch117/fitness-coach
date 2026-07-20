@@ -1,18 +1,28 @@
-# Accepted Measurement Warning Display Fix
+# Coaching Plan Permission Fix
 
-Extract this ZIP into:
+The Start Check-In was failing because the browser client tried to update
+`coaching_plans` directly.
+
+This patch uses a narrow authenticated database function instead. It only
+allows a signed-in user to save the measurement side and time zone on their
+own coaching plan.
+
+## Install
+
+Extract the ZIP into:
 
 `C:\FitnessCoach\App`
 
-Replace:
+Merge the folders and replace the service file.
 
-`src\pages\StartCheckInPage.jsx`
+## Run
 
-No database migration is needed.
+```powershell
+npx supabase db push
+npm run build
+```
 
-Expected behavior:
+Then refresh TestUser's Start Check-In and press **Complete Start Check-In**
+again.
 
-- Choose **Use This Value** for an unusual measurement.
-- Return with Back.
-- The accepted value shows a steady answered state with no warning text.
-- Change the value and the warning appears again.
+No test measurements or photos need to be re-entered.
