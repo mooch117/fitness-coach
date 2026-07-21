@@ -140,7 +140,7 @@ export async function createStartCheckInDraft(
   return data
 }
 
-// Saves the one side used throughout the coaching plan.
+// Saves the one measurement side used throughout this plan.
 export async function savePlanMeasurementPreferences(
   coachingPlanId,
   {
@@ -161,7 +161,7 @@ export async function savePlanMeasurementPreferences(
 
   const { data, error } = await supabase
     .rpc(
-      'save_plan_measurement_preferences',
+      'save_start_checkin_plan_preferences',
       {
         p_coaching_plan_id:
           coachingPlanId,

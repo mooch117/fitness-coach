@@ -419,7 +419,7 @@ export function StartCheckInStep({
     if (sideLocked) {
       return (
         <fieldset>
-          <legend>Your measurement side</legend>
+          <legend>Your chosen measurement side</legend>
 
           <p className="locked-side-value">
             {form.measurement_side === 'left'
@@ -428,7 +428,9 @@ export function StartCheckInStep({
           </p>
 
           <p className="question-helper">
-            This side is locked for the completed plan.
+            Your measurement side is locked for this 
+            plan because your baseline measurements 
+            and side progress photo have already been submitted.
           </p>
         </fieldset>
       )
@@ -443,7 +445,8 @@ export function StartCheckInStep({
         <p className="question-helper">
           Choose the side you will measure throughout
           this plan. We recommend using your dominant
-          side.
+          side. It cannot be changed once your Start Check-In 
+          is submitted.
         </p>
 
         <div
@@ -475,7 +478,7 @@ export function StartCheckInStep({
     return (
       <fieldset>
         <legend>
-          Measure your {side.toLowerCase()} side.
+          Measure your {side.toUpperCase()} side.
         </legend>
 
         <div className="start-side-measurements">
@@ -550,7 +553,7 @@ export function StartCheckInStep({
     return (
       <PhotoField
         pose="front"
-        title="Add your front progress photo."
+        title="Add your FRONT progress photo."
         helper="Stand naturally facing the camera with your body relaxed and your arms resting at your sides. Keep your full body visible from head to feet."
         photo={photos.front}
         uploadingPose={uploadingPose}
@@ -567,8 +570,8 @@ export function StartCheckInStep({
     return (
       <PhotoField
         pose="side"
-        title={`Add your ${side} side progress photo.`}
-        helper={`Stand naturally with your ${side} side facing the camera, your body relaxed, and your arms resting at your sides. Keep your full body visible from head to feet.`}
+        title={`Add your ${side.toUpperCase()} SIDE progress photo.`}
+        helper={`Stand naturally with your ${side} side facing the camera, your body relaxed, and your arms resting at your sides. \n Keep your full body visible from head to feet.`}
         photo={photos.side}
         uploadingPose={uploadingPose}
         uploadPhoto={uploadPhoto}
@@ -580,7 +583,7 @@ export function StartCheckInStep({
   return (
     <PhotoField
       pose="back"
-      title="Add your back progress photo."
+      title="Add your BACK progress photo."
       helper="Stand naturally facing away from the camera with your body relaxed and your arms resting at your sides. Keep your full body visible from head to feet."
       photo={photos.back}
       uploadingPose={uploadingPose}

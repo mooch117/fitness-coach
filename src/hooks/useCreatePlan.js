@@ -16,7 +16,7 @@ const EMPTY_FORM = {
   unit_system: 'imperial',
   body_fat_source: '',
   start_date: '',
-  program_length_weeks: '8',
+  program_length_weeks: '12',
   checkin_day: '',
   calorie_target: '',
   protein_grams: '',
