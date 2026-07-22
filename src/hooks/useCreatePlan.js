@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { createCoachingPlan } from '../services/createPlanService'
 import { getTodayDateKey } from '../utils/dates'
 import {
-  getDateKeyWeekday,
   validateCreatePlan,
 } from '../utils/createPlanFlow'
 import { getBrowserTimeZone } from '../utils/timeZone'
@@ -10,6 +9,9 @@ import {
   getErrorMessage,
   logDevelopmentError,
 } from '../utils/errors'
+import {
+  calculateCaloriesFromMacros,
+} from '../utils/nutritionTargets'
 
 const EMPTY_FORM = {
   goal: '',
@@ -49,31 +51,61 @@ export function useCreatePlan(
 
   const today = getTodayDateKey()
 
+  function getWeekdayFromDateKey(dateKey) {
+    if (!dateKey) {
+      return ''
+    }
+
+    const [year, month, day] = dateKey
+      .split('-')
+      .map(Number)
+
+    if (
+      !Number.isInteger(year) ||
+      !Number.isInteger(month) ||
+      !Number.isInteger(day)
+    ) {
+      return ''
+    }
+
+    return new Date(
+      year,
+      month - 1,
+      day,
+    ).getDay()
+  }
+
   function setField(fieldName, value) {
     if (fieldName === 'checkin_day') {
       setCheckinDayTouched(true)
     }
 
     setForm((currentForm) => {
-      if (fieldName !== 'start_date') {
-        return {
-          ...currentForm,
-          [fieldName]: value,
-        }
-      }
-
-      const automaticDay =
-        getDateKeyWeekday(value)
-
-      return {
+      const nextForm = {
         ...currentForm,
-        start_date: value,
-        checkin_day:
-          !checkinDayTouched &&
-          automaticDay !== null
-            ? automaticDay
-            : currentForm.checkin_day,
+        [fieldName]: value,
       }
+
+      if (
+        fieldName === 'start_date' &&
+        !checkinDayTouched
+      ) {
+        nextForm.checkin_day =
+          getWeekdayFromDateKey(value)
+      }
+
+      const isMacroField = [
+        'protein_grams',
+        'carb_grams',
+        'fat_grams',
+      ].includes(fieldName)
+
+      if (isMacroField) {
+        nextForm.calorie_target =
+          calculateCaloriesFromMacros(nextForm)
+      }
+
+      return nextForm
     })
 
     setError('')

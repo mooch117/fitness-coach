@@ -1,26 +1,18 @@
-# Juntos Fit — Start Check-In Permission Repair
+# Juntos Fit — Visible Build Version
 
-This ZIP contains full replacement files, not snippets.
+This adds a tiny version marker to every app screen.
 
-## Files
+Example:
 
-- `src/services/startCheckInService.js`
-- `supabase/migrations/20260721000100_start_checkin_permission_repair.sql`
+`v0.0.1 · a1b2c3d`
+`Jul 21, 9:42 AM`
 
-## Why this is needed
+- `v0.0.1` is the app milestone version from `package.json`.
+- `a1b2c3d` is the exact Git commit used by the build.
+- The date/time is formatted in the phone or computer's local time.
 
-The front photo can upload without changing the coaching plan.
-
-The side-photo step also saves the plan's selected measurement side. The old
-browser code attempted a direct update on `public.coaching_plans`, which the
-database correctly blocked.
-
-This repair uses a narrowly scoped `security definer` RPC. It:
-
-- requires an authenticated user
-- updates only the signed-in user's own plan
-- updates only `measurement_side` and `time_zone`
-- does not grant broad UPDATE access on `coaching_plans`
+Cloudflare Pages supplies its current commit SHA automatically. Local builds
+fall back to the current local Git commit.
 
 ## Install
 
@@ -30,17 +22,32 @@ Extract the entire ZIP into:
 
 Allow Windows to merge folders and replace files.
 
-## Run
+No database migration is needed.
+
+## Test locally
 
 ```powershell
-npx supabase db push
 npm run build
+npm run dev
 ```
 
-Test Deb's side-photo upload locally first.
+The label should appear in the bottom-right corner.
 
-Then deploy:
+## Deploy
 
 ```powershell
-.\buildPush.ps1 "Repair Start Check-In plan preference permissions"
+.\buildPush.ps1 "Add visible build version"
 ```
+
+At the end, the script prints the seven-character commit code to watch for.
+When the live app displays that same code, Cloudflare is serving the new build.
+
+## Future milestone versions
+
+Change only the `version` value in `package.json`, for example:
+
+- `0.0.2`
+- `0.1.0`
+- `1.0.0`
+
+The commit code and build time update automatically on every deployment.

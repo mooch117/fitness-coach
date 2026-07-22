@@ -101,8 +101,17 @@ export function DashboardPage({
   const startCheckIn =
     dashboard?.startCheckIn ?? null
 
+  // Keep the Start Check-In card visible before and on
+  // the plan start date. Hide it beginning the next day.
+  const showStartCheckIn =
+    Boolean(plan?.start_date) &&
+    today <= plan.start_date
+
+  // The Start Check-In may only be opened on the
+  // plan's actual start date.
   const startCheckInAvailable =
-    Boolean(plan) && today >= plan.start_date
+    Boolean(plan?.start_date) &&
+    today === plan.start_date
 
   const startCheckInCompleted =
     startCheckIn?.status === 'completed'
@@ -131,8 +140,10 @@ export function DashboardPage({
     : 'is-due'
 
   const startCheckInLabel = startCheckInCompleted
-    ? 'View Start Check-In ✓'
-    : 'Complete Start Check-In'
+  ? 'View Your Start Day Check-In ✓'
+  : startCheckInAvailable
+    ? 'Complete Your Start Day Check-In'
+    : 'Your Start Day Check-In'
 
   const streakDays = Number(
     dashboard?.streakDays ?? 0,
@@ -186,7 +197,7 @@ export function DashboardPage({
             </section>
           )}
 
-          {startCheckInAvailable && (
+          {showStartCheckIn && (
             <section
               className="dashboard-check-in"
               aria-label="Start Check-In"
@@ -195,6 +206,7 @@ export function DashboardPage({
                 type="button"
                 className={`daily-check-in-button ${startCheckInState}`}
                 onClick={onOpenStartCheckIn}
+                disabled={!startCheckInAvailable}
               >
                 {startCheckInLabel}
               </button>

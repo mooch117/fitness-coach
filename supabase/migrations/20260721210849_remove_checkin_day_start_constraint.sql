@@ -1,0 +1,2 @@
+alter table public.coaching_plans
+drop constraint if exists coaching_plans_checkin_day_matches_start;

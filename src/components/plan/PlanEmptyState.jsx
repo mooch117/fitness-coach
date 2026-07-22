@@ -16,6 +16,7 @@ export function PlanEmptyState({ onCreatePlan }) {
 
       <button
         type="button"
+        className="daily-check-in-button is-due"
         onClick={onCreatePlan}
       >
         Create Plan

@@ -233,69 +233,72 @@ export function CreatePlanStep({
     )
   }
 
-  if (step === STEP.NUTRITION) {
-    return (
-      <fieldset>
-        <legend>Enter your nutrition targets.</legend>
+if (step === STEP.NUTRITION) {
+  return (
+    <fieldset>
+      <legend>Enter your nutrition targets.</legend>
 
-        <p className="question-helper">
-          Use the numbers from your trainer or the
-          targets you already follow.
-        </p>
+      <p className="question-helper">
+        Enter the macro targets from your trainer or
+        the targets you already follow. Daily calories
+        will be calculated automatically.
+      </p>
 
-        <div className="create-plan-field-grid">
-          <NumberField
-            label="Daily calories"
-            name="calorie-target"
-            value={form.calorie_target}
-            suffix="kcal"
-            min="1"
-            max="10000"
-            onChange={(value) =>
-              setField('calorie_target', value)
-            }
-          />
+      <div className="create-plan-field-grid">
+        <NumberField
+          label="Protein"
+          name="protein-target"
+          value={form.protein_grams}
+          suffix="g"
+          min="0"
+          max="1000"
+          onChange={(value) =>
+            setField('protein_grams', value)
+          }
+        />
 
-          <NumberField
-            label="Protein"
-            name="protein-target"
-            value={form.protein_grams}
-            suffix="g"
-            min="0"
-            max="1000"
-            onChange={(value) =>
-              setField('protein_grams', value)
-            }
-          />
+        <NumberField
+          label="Carbohydrates"
+          name="carb-target"
+          value={form.carb_grams}
+          suffix="g"
+          min="0"
+          max="1000"
+          onChange={(value) =>
+            setField('carb_grams', value)
+          }
+        />
 
-          <NumberField
-            label="Carbohydrates"
-            name="carb-target"
-            value={form.carb_grams}
-            suffix="g"
-            min="0"
-            max="1000"
-            onChange={(value) =>
-              setField('carb_grams', value)
-            }
-          />
+        <NumberField
+          label="Fat"
+          name="fat-target"
+          value={form.fat_grams}
+          suffix="g"
+          min="0"
+          max="1000"
+          onChange={(value) =>
+            setField('fat_grams', value)
+          }
+        />
+      </div>
 
-          <NumberField
-            label="Fat"
-            name="fat-target"
-            value={form.fat_grams}
-            suffix="g"
-            min="0"
-            max="1000"
-            onChange={(value) =>
-              setField('fat_grams', value)
-            }
-          />
-        </div>
-      </fieldset>
-    )
-  }
+      <div
+        className="calculated-calorie-target"
+        aria-live="polite"
+      >
+        <span>Calculated Daily Calories</span>
 
+        <strong>
+          {form.calorie_target === ''
+            ? 'Enter all three macros'
+            : `${Number(
+                form.calorie_target,
+              ).toLocaleString()} kcal`}
+        </strong>
+      </div>
+    </fieldset>
+  )
+}
   return (
     <fieldset>
       <legend>Enter your weekly activity goals.</legend>

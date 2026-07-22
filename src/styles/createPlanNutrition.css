@@ -1,0 +1,123 @@
+/* Nutrition-method choice and macro-target layout. */
+
+.nutrition-method-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.nutrition-method-option {
+  display: flex;
+  min-height: 5.25rem;
+  align-items: flex-start;
+  gap: 0.8rem;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  background: var(--color-surface);
+  cursor: pointer;
+}
+
+.nutrition-method-list.needs-answer
+  .nutrition-method-option:not(.is-disabled) {
+  border-color:
+    rgba(var(--color-interaction-rgb), 0.78);
+  animation: create-plan-required-pulse
+    1.7s ease-in-out infinite;
+}
+
+.nutrition-method-list.has-answer
+  .nutrition-method-option:has(input:checked) {
+  border-color: var(--color-interaction);
+  background: var(--color-accent-soft);
+  box-shadow:
+    0 0 0 2px
+      rgba(var(--color-interaction-rgb), 0.16),
+    0 4px 12px
+      rgba(var(--color-interaction-rgb), 0.18);
+}
+
+.nutrition-method-option.is-disabled {
+  border-color: var(--color-border);
+  background: var(--color-background);
+  cursor: not-allowed;
+  opacity: 0.56;
+  animation: none;
+}
+
+.nutrition-method-copy {
+  display: grid;
+  gap: 0.3rem;
+  line-height: 1.4;
+}
+
+.nutrition-method-copy strong {
+  color: var(--color-primary-dark);
+}
+
+.nutrition-method-copy > span {
+  color: var(--color-text-muted);
+}
+
+.nutrition-method-copy small {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  background: var(--color-accent-soft);
+  color: var(--color-primary-dark);
+  font-weight: 750;
+}
+
+.daily-calorie-total {
+  display: grid;
+  gap: 0.25rem;
+  margin: 1rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  background: var(--color-accent-soft);
+  text-align: center;
+}
+
+.daily-calorie-total > span {
+  color: var(--color-text-muted);
+  font-weight: 700;
+}
+
+.daily-calorie-total > strong {
+  color: var(--color-primary-dark);
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  line-height: 1;
+}
+
+.daily-calorie-total > small,
+.macro-calorie-helper {
+  color: var(--color-text-muted);
+}
+
+.nutrition-macro-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.macro-calorie-helper {
+  line-height: 1.35;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nutrition-method-list.needs-answer
+    .nutrition-method-option:not(.is-disabled) {
+    animation: none;
+    box-shadow:
+      0 0 0 3px
+        rgba(var(--color-interaction-rgb), 0.2),
+      0 4px 14px
+        rgba(var(--color-interaction-rgb), 0.38);
+  }
+}
+
+@media (min-width: 40rem) {
+  .nutrition-macro-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+  }
+}

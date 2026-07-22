@@ -145,6 +145,30 @@
       rgb(var(--color-interaction-rgb) / 18%);
 }
 
+.calculated-calorie-target {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 1rem;
+  border: 2px solid var(--color-interaction);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  background: var(--color-surface);
+  text-align: center;
+  box-shadow:
+    0 0 0 2px rgb(var(--color-interaction-rgb) / 14%),
+    0 4px 12px rgb(var(--color-interaction-rgb) / 16%);
+}
+
+.calculated-calorie-target span {
+  color: var(--color-text-muted);
+  font-weight: 650;
+}
+
+.calculated-calorie-target strong {
+  color: var(--color-primary-dark);
+  font-size: 1.4rem;
+}
+
 @keyframes create-plan-required-pulse {
   0%,
   100% {
@@ -200,3 +224,5 @@
     grid-column: 1 / -1;
   }
 }
+
+
