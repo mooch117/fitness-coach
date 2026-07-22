@@ -7,6 +7,7 @@ export const CREATE_PLAN_STEP_IDS = {
   START_DATE: 'start-date',
   LENGTH: 'length',
   CHECKIN_DAY: 'checkin-day',
+  NUTRITION_METHOD: 'nutrition-method',
   NUTRITION: 'nutrition',
   ACTIVITY: 'activity',
 }
@@ -18,6 +19,7 @@ export const CREATE_PLAN_STEPS = [
   CREATE_PLAN_STEP_IDS.START_DATE,
   CREATE_PLAN_STEP_IDS.LENGTH,
   CREATE_PLAN_STEP_IDS.CHECKIN_DAY,
+  CREATE_PLAN_STEP_IDS.NUTRITION_METHOD,
   CREATE_PLAN_STEP_IDS.NUTRITION,
   CREATE_PLAN_STEP_IDS.ACTIVITY,
 ]
@@ -56,6 +58,30 @@ export const WEEKDAY_OPTIONS = [
   { value: 4, label: 'Thursday' },
   { value: 5, label: 'Friday' },
   { value: 6, label: 'Saturday' },
+]
+
+export const NUTRITION_TARGET_METHOD_OPTIONS = [
+  {
+    value: 'macros_known',
+    label: 'I know my macro targets',
+    description:
+      'Enter your protein, carbs, and fat. Juntos Fit will calculate your daily calories.',
+    disabled: false,
+  },
+  {
+    value: 'calories_known',
+    label: 'I know my calorie target',
+    description:
+      'Enter your daily calorie target. Juntos Fit will recommend your macros.',
+    disabled: true,
+  },
+  {
+    value: 'calculate_for_me',
+    label: 'Calculate everything for me',
+    description:
+      'Juntos Fit will recommend your calories and macros based on your body, activity, and goal.',
+    disabled: true,
+  },
 ]
 
 export function getDateKeyWeekday(dateKey) {
@@ -153,6 +179,16 @@ export function validateCreatePlanStep(
     )
       ? ''
       : 'Choose your weekly check-in day.'
+  }
+
+  if (
+    step ===
+    CREATE_PLAN_STEP_IDS.NUTRITION_METHOD
+  ) {
+    return form.nutrition_target_method ===
+      'macros_known'
+      ? ''
+      : 'Choose how you want to set your nutrition targets.'
   }
 
   if (

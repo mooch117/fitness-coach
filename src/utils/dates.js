@@ -50,3 +50,81 @@ export function getProgramWeekRange(startDate, currentDate) {
     weekEnd: addDays(weekStart, 6),
   }
 }
+
+// Returns the weekday for a YYYY-MM-DD date key.
+// Sunday = 0 through Saturday = 6.
+export function getDateKeyWeekday(dateKey) {
+  if (!dateKey) {
+    return null
+  }
+
+  return new Date(
+    dateKeyToUtcMilliseconds(dateKey),
+  ).getUTCDay()
+}
+
+// Finds the first selected weekly check-in weekday
+// occurring at least seven full days after plan start.
+export function getFirstWeeklyCheckInDate(
+  startDate,
+  checkinDay,
+) {
+  if (
+    !startDate ||
+    !Number.isInteger(Number(checkinDay))
+  ) {
+    return null
+  }
+
+  const firstEligibleDate = addDays(
+    startDate,
+    7,
+  )
+
+  const firstEligibleWeekday =
+    getDateKeyWeekday(firstEligibleDate)
+
+  const daysUntilCheckIn =
+    (Number(checkinDay) -
+      firstEligibleWeekday +
+      7) %
+    7
+
+  return addDays(
+    firstEligibleDate,
+    daysUntilCheckIn,
+  )
+}
+
+// Returns true only on the recurring weekly check-in
+// dates anchored to the plan's selected weekday.
+export function isWeeklyCheckInDate(
+  startDate,
+  checkinDay,
+  currentDate,
+) {
+  const firstWeeklyDate =
+    getFirstWeeklyCheckInDate(
+      startDate,
+      checkinDay,
+    )
+
+  if (
+    !firstWeeklyDate ||
+    !currentDate ||
+    currentDate < firstWeeklyDate
+  ) {
+    return false
+  }
+
+  const daysSinceFirstWeekly =
+    Math.floor(
+      (dateKeyToUtcMilliseconds(currentDate) -
+        dateKeyToUtcMilliseconds(
+          firstWeeklyDate,
+        )) /
+        MILLISECONDS_PER_DAY,
+    )
+
+  return daysSinceFirstWeekly % 7 === 0
+}

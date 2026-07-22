@@ -12,6 +12,7 @@ import './App.css'
 const PAGE_DASHBOARD = 'dashboard'
 const PAGE_CREATE_PLAN = 'create-plan'
 const PAGE_DAILY_CHECK_IN = 'daily-check-in'
+const PAGE_WEEKLY_CHECK_IN = 'weekly-check-in'
 const PAGE_START_CHECK_IN = 'start-check-in'
 const PAGE_HISTORY = 'history'
 
@@ -161,6 +162,31 @@ function App() {
     )
   }
 
+  if (currentPage === PAGE_WEEKLY_CHECK_IN) {
+    return (
+      <main className="container">
+        <button
+          type="button"
+          onClick={returnToDashboard}
+        >
+          Back to Dashboard
+        </button>
+
+        <h1>Weekly Check-In</h1>
+
+        <p>
+          Your Weekly Check-In replaces the Daily
+          Check-In on this scheduled date.
+        </p>
+
+        <p>
+          The full weekly wizard is the next feature
+          we’re building.
+        </p>
+      </main>
+    )
+  }
+
   if (currentPage === PAGE_START_CHECK_IN) {
     return (
       <StartCheckInPage
@@ -202,6 +228,9 @@ function App() {
       }
       onOpenDailyCheckIn={() =>
         setCurrentPage(PAGE_DAILY_CHECK_IN)
+      }
+      onOpenWeeklyCheckIn={() =>
+        setCurrentPage(PAGE_WEEKLY_CHECK_IN)
       }
       onOpenStartCheckIn={() =>
         setCurrentPage(PAGE_START_CHECK_IN)

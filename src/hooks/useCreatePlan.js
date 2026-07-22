@@ -9,9 +9,6 @@ import {
   getErrorMessage,
   logDevelopmentError,
 } from '../utils/errors'
-import {
-  calculateCaloriesFromMacros,
-} from '../utils/nutritionTargets'
 
 const EMPTY_FORM = {
   goal: '',
@@ -20,7 +17,8 @@ const EMPTY_FORM = {
   start_date: '',
   program_length_weeks: '12',
   checkin_day: '',
-  calorie_target: '',
+  nutrition_target_method: '',
+  calorie_target: '0',
   protein_grams: '',
   carb_grams: '',
   fat_grams: '',
@@ -30,6 +28,30 @@ const EMPTY_FORM = {
   measurement_frequency_weeks: '1',
   photo_frequency_weeks: '4',
   time_zone: getBrowserTimeZone(),
+}
+
+function macroNumber(value) {
+  if (
+    value === '' ||
+    value === null ||
+    value === undefined
+  ) {
+    return 0
+  }
+
+  const number = Number(value)
+
+  return Number.isFinite(number) && number >= 0
+    ? number
+    : 0
+}
+
+function calculateCaloriesFromMacros(form) {
+  return String(
+    macroNumber(form.protein_grams) * 4 +
+      macroNumber(form.carb_grams) * 4 +
+      macroNumber(form.fat_grams) * 9,
+  )
 }
 
 // Owns the Create Plan form, validation, and save.

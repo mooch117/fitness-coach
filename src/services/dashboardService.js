@@ -147,6 +147,34 @@ async function loadTodayCheckIn(
   return todayCheckIn
 }
 
+// Loads today's weekly check-in when the linked
+// daily record has already been created.
+async function loadTodayWeeklyCheckIn(
+  dailyCheckInId,
+) {
+  if (!dailyCheckInId) {
+    return null
+  }
+
+  const { data: weeklyCheckIn, error } =
+    await supabase
+      .from('weekly_checkins')
+      .select(
+        'id, daily_checkin_id, week_number, submitted_at',
+      )
+      .eq(
+        'daily_checkin_id',
+        dailyCheckInId,
+      )
+      .maybeSingle()
+
+  if (error) {
+    throw error
+  }
+
+  return weeklyCheckIn
+}
+
 // Loads the daily check-ins submitted during the current program week.
 async function loadWeeklyCheckIns(
   coachingPlanId,
@@ -327,6 +355,7 @@ export async function loadDashboardData(userId) {
       target: null,
       startCheckIn: null,
       todayCheckIn: null,
+      todayWeeklyCheckIn: null,
       cardioCompleted: 0,
       cardioWeekStart: null,
       cardioWeekEnd: null,
@@ -371,6 +400,11 @@ export async function loadDashboardData(userId) {
     ),
   ])
 
+  const todayWeeklyCheckIn =
+    await loadTodayWeeklyCheckIn(
+      todayCheckIn?.id,
+    )
+
  const weekAtAGlance = buildWeekAtAGlance(
    weeklyCheckIns,
    target?.weekly_workout_target,
@@ -387,6 +421,7 @@ export async function loadDashboardData(userId) {
     target,
     startCheckIn,
     todayCheckIn,
+    todayWeeklyCheckIn,
 
     cardioCompleted:
       weekAtAGlance.cardioMinutes,

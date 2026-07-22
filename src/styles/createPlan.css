@@ -145,28 +145,106 @@
       rgb(var(--color-interaction-rgb) / 18%);
 }
 
-.calculated-calorie-target {
+.nutrition-method-list {
   display: grid;
-  gap: 0.35rem;
-  margin-top: 1rem;
-  border: 2px solid var(--color-interaction);
+  gap: 0.9rem;
+}
+
+.nutrition-method-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 1rem;
   background: var(--color-surface);
-  text-align: center;
+  cursor: pointer;
+}
+
+.nutrition-method-list.needs-answer
+  .nutrition-method-option:not(.is-disabled) {
+  border-color:
+    rgb(var(--color-interaction-rgb) / 72%);
+  animation:
+    create-plan-required-pulse
+    1.8s ease-in-out infinite;
+}
+
+.nutrition-method-list.has-answer
+  .nutrition-method-option:has(input:checked) {
+  border-color: var(--color-interaction);
+  background: var(--color-accent-soft);
   box-shadow:
-    0 0 0 2px rgb(var(--color-interaction-rgb) / 14%),
-    0 4px 12px rgb(var(--color-interaction-rgb) / 16%);
+    0 0 0 2px
+      rgb(var(--color-interaction-rgb) / 16%),
+    0 4px 12px
+      rgb(var(--color-interaction-rgb) / 18%);
+}
+
+.nutrition-method-option.is-disabled {
+  background: var(--color-background);
+  cursor: not-allowed;
+  opacity: 0.52;
+  animation: none;
+}
+
+.nutrition-method-copy {
+  display: grid;
+  gap: 0.3rem;
+  line-height: 1.4;
+}
+
+.nutrition-method-copy strong {
+  color: var(--color-primary-dark);
+}
+
+.nutrition-method-copy > span {
+  color: var(--color-text-muted);
+}
+
+.nutrition-method-copy small {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 0.18rem 0.5rem;
+  background: var(--color-accent-soft);
+  color: var(--color-primary-dark);
+  font-weight: 750;
+}
+
+.calculated-calorie-target {
+  display: grid;
+  gap: 0.3rem;
+  margin: 1rem 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  background: var(--color-accent-soft);
+  text-align: center;
 }
 
 .calculated-calorie-target span {
   color: var(--color-text-muted);
-  font-weight: 650;
+  font-weight: 700;
 }
 
 .calculated-calorie-target strong {
   color: var(--color-primary-dark);
-  font-size: 1.4rem;
+  font-size: clamp(2rem, 9vw, 2.8rem);
+  line-height: 1;
+}
+
+.calculated-calorie-target small,
+.macro-calorie-helper {
+  color: var(--color-text-muted);
+}
+
+.nutrition-macro-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.macro-calorie-helper {
+  line-height: 1.35;
 }
 
 @keyframes create-plan-required-pulse {
@@ -200,7 +278,9 @@
   .create-plan-page
     .create-plan-choice-group.needs-answer
     .choice-list
-    label {
+    label,
+  .nutrition-method-list.needs-answer
+    .nutrition-method-option:not(.is-disabled) {
     border-color: var(--color-interaction);
     background-color:
       rgb(var(--color-interaction-rgb) / 5%);
@@ -222,6 +302,11 @@
   .create-plan-field-grid
     .create-plan-number-field:last-child:nth-child(odd) {
     grid-column: 1 / -1;
+  }
+
+  .nutrition-macro-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
   }
 }
 

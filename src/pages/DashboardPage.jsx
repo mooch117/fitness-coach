@@ -1,6 +1,7 @@
 import {
   dateKeyToUtcMilliseconds,
   getTodayDateKey,
+  isWeeklyCheckInDate,
 } from '../utils/dates'
 import {
   formatDate,
@@ -77,6 +78,7 @@ export function DashboardPage({
   onCreatePlan,
   onOpenStartCheckIn,
   onOpenDailyCheckIn,
+  onOpenWeeklyCheckIn,
   onOpenHistory,
   onSignOut,
 }) {
@@ -123,6 +125,17 @@ export function DashboardPage({
     today > plan.start_date &&
     startCheckInCompleted
 
+  const weeklyCheckInDue =
+    Boolean(plan) &&
+    isWeeklyCheckInDate(
+      plan.start_date,
+      plan.checkin_day,
+      today,
+    )
+
+  const hasCompletedWeeklyCheckIn =
+    Boolean(dashboard?.todayWeeklyCheckIn)
+
   const hasCheckedInToday =
     dashboard?.todayCheckIn?.checkin_date ===
     today
@@ -134,6 +147,16 @@ export function DashboardPage({
   const checkInLabel = hasCheckedInToday
     ? 'View Today’s Check-In ✓'
     : 'Daily Check-In'
+
+  const weeklyCheckInState =
+    hasCompletedWeeklyCheckIn
+      ? 'is-complete'
+      : 'is-due'
+
+  const weeklyCheckInLabel =
+    hasCompletedWeeklyCheckIn
+      ? 'View This Week’s Check-In ✓'
+      : 'Weekly Check-In'
 
   const startCheckInState = startCheckInCompleted
     ? 'is-complete'
@@ -182,20 +205,37 @@ export function DashboardPage({
 
       {dashboard && plan && (
         <>
-          {canCheckIn && (
-            <section
-              className="dashboard-check-in"
-              aria-label="Today’s daily check-in"
-            >
-              <button
-                type="button"
-                className={`daily-check-in-button ${checkInState}`}
-                onClick={onOpenDailyCheckIn}
+          {canCheckIn &&
+            weeklyCheckInDue && (
+              <section
+                className="dashboard-check-in"
+                aria-label="This week’s check-in"
               >
-                {checkInLabel}
-              </button>
-            </section>
-          )}
+                <button
+                  type="button"
+                  className={`daily-check-in-button ${weeklyCheckInState}`}
+                  onClick={onOpenWeeklyCheckIn}
+                >
+                  {weeklyCheckInLabel}
+                </button>
+              </section>
+            )}
+
+          {canCheckIn &&
+            !weeklyCheckInDue && (
+              <section
+                className="dashboard-check-in"
+                aria-label="Today’s daily check-in"
+              >
+                <button
+                  type="button"
+                  className={`daily-check-in-button ${checkInState}`}
+                  onClick={onOpenDailyCheckIn}
+                >
+                  {checkInLabel}
+                </button>
+              </section>
+            )}
 
           {showStartCheckIn && (
             <section
@@ -249,13 +289,23 @@ export function DashboardPage({
             )}
 
             {import.meta.env.DEV && (
-              <button
+              <div className="dashboard-dev-links">
+                <button
                 type="button"
                 className="text-button"
                 onClick={onCreatePlan}
-              >
+                >
                 Preview Create Plan Wizard
-              </button>
+                </button>
+
+                <button
+                type="button"
+                className="text-button"
+                onClick={onOpenWeeklyCheckIn}
+                >
+                Preview Weekly Check-In Wizard
+                </button>
+              </div>
             )}
           </section>
 
